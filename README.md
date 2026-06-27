@@ -1,61 +1,56 @@
-# Описание
+# Description
 
-> **Проект используется с Node.js версии >= 24**. Проверить можно в `package.json` в секции `engines`.
+> **The project requires Node.js version >= 24**. You can verify this in `package.json` under the `engines` section.
 
-Это шаблон для старта новых проектов на **React** и **Typescript**. Он использует [Vite](https://vite.dev/guide/) в качестве инструмента сборки. Для расширения возможностей можно добавлять плагины от [Rolldown](https://rolldown.rs/guide/getting-started):
+This is a template for starting new projects with **React** and **TypeScript**. It uses [Vite](https://vite.dev/guide/) as the build tool. To extend its capabilities, you can add plugins from [Rolldown](https://rolldown.rs/guide/getting-started):
 
 - [Vite | Plugin API](https://vite.dev/guide/api-plugin)
 - [Rolldown | Plugin API](https://rolldown.rs/apis/plugin-api)
 
-# Качество кода и GitHub workflows
+# Code Quality and GitHub Workflows
 
-В проект добавлен автоматический запуск **ESLint**, **Stylelint**, **Prettier** при _коммите_ (только измененные файлы) и проверка типизации на _push_ (весь проект) c помощью **git hooks** (`.husky/pre-commit` и `.husky/pre-push`). Также это добавлено в GitHub Actions (`.github/workflows/.github-lint.yml`), которые можно включить в настройках репозитория для нужных веток.
+The project includes automatic execution of **ESLint**, **Stylelint**, and **Prettier** on _commit_ (only on changed files), as well as type checking on _push_ (entire project), using **git hooks** (`.husky/pre-commit` and `.husky/pre-push`). This is also configured in GitHub Actions (`.github/workflows/.github-lint.yml`), which can be enabled in the repository settings for the desired branches.
 
-# Переменные окружения и конфиг
+# Environment Variables and Configuration
 
-## Переменные среды и режимы работы
+## Environment Variables and Modes
 
-У **Vite** есть встроенные `env` константы, например для определения режима работы (`dev` или `production`). Ознакомиться с ними можно [тут](https://vite.dev/guide/env-and-mode#built-in-constants).
+**Vite** has built-in `env` constants, for example to determine the operating mode (`dev` or `production`). You can learn more about them [here](https://vite.dev/guide/env-and-mode#built-in-constants).
 
-### Переменные
+### Variables
 
-Переменные можно задавать с использованием префикса `VITE_` и без него. Разница **критическая**:
+Variables can be defined with or without the `VITE_` prefix. The difference is **critical**. Detailed description can be found [here](https://vite.dev/guide/env-and-mode#env-variables).
 
-- При использовании префикса `VITE_` значение переменной **будет вставлено в билд приложения** и будет видно на клиенте. Поэтому такие переменные **НЕЛЬЗЯ** использовать для секретов (пароли и похожие данные)
-- Переменные **без** префикса будут доступны в файле `vite.config.js` (а также в других контекстах на стороне сервера/Node). Таким образом, переменная без префикса, например `DB_PASSWORD`, может использоваться в конфигурации Vite для настройки прокси, определения пользовательской логики сборки и т.д.
+### Files `.env`
 
-[Подробное описание](https://vite.dev/guide/env-and-mode#env-variables)
-
-### `.env` файлы
-
-**Vite** использует **dotenv** для загрузки дополнительных переменных окружения из следующих файлов, расположенных в каталоге окружения (по-умолчанию это корневая папка):
+**Vite** uses **dotenv** to load additional environment variables from the following files located in the environment directory (the root folder by default):
 
 ```
-.env                # загружается во всех случаях
-.env.local          # загружается во всех случаях
-.env.[mode]         # загружается только в указанном режиме
-.env.[mode].local   # загружается только в указанном режиме
+.env                # loaded in all cases
+.env.local          # loaded in all cases
+.env.[mode]         # loaded only in the specified mode
+.env.[mode].local   # loaded only in the specified mode
 ```
 
-[Документация](https://vite.dev/guide/env-and-mode#env-files)
+[Documentation](https://vite.dev/guide/env-and-mode#env-files)
 
-# Прочие детали
+# Other Details
 
-## Алиасы веутри проекта
+## Aliases Within the Project
 
-Для импорта локальных файлов, компонентов и т.д. в проекте настроен алиас `@/your_folder/your_file`, для того чтобы не указывать длинные относительные пути.
+For importing local files, components, etc. within the project, an alias `@/` is configured. For example, you can import component like ths: `@/component_folder/component_file`. So you don't have to specify long relative paths. It is configured in `tsconfig.app.json` section `paths`. Also, in `vite.config.ts` in `resolve.alias`.
 
-## Папка `public`
+## `public` Folder
 
-Содержимое папки `public` по-умолчанию копируется в сборку проекта
+The contents of the `public` folder are copied into the project build by default.
 
 ## `useAsync`
 
-Для более удобной работы с асинхронными запросами добавлен кастомный хук `useAsync` в `src/hooks`
+For more convenient handling of asynchronous requests, a custom `useAsync` hook has been added in `src/hooks`.
 
-## Библиотека `normalize.css`
+## Library `normalize.css`
 
-Сборка включает в себя библиотеку для унификации стилей разных браузеров `normalize.css`. Если данная сборка используется для приложения, которое будет работать внутри другого по типу виджета, то библиотеку нужно удалить:
+The build includes the `normalize.css` library to unify styles across different browsers. If this build is used for an application that will run inside another one as a widget, the library should be removed:
 
-- Удалить `import 'normalize.css'` из файла `main.tsx`
-- Удалить библиотеку из проекта `npm uninstall -S normalize.css`
+- Remove `import 'normalize.css'` from the `main.tsx` file
+- Remove the library from the project with `npm uninstall -S normalize.css`
